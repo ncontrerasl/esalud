@@ -1,0 +1,48 @@
+{% extends 'main/base.html' %}
+{% block title %} Reporte diario de sintomas {% endblock %}
+
+
+{% block content %}
+
+<h3>Reporte diario de sintomas</h3>
+<p>Para realizar el reporte, seleccione en cada barra su interpretacion del sintoma para el dia de hoy, posteriormente guarde sus cambios</p>
+<br>
+<form  action="/reporte/" method="POST">
+ {% csrf_token %}
+	<div class="form-group">
+		<label style="float: left;" for="customRange3">Sin Dolor</label>
+		<label style="float: right;" for="customRange3">Máximo Dolor</label>
+		{{form.Sintoma_1}}<br>
+		<label style="float: left;" for="customRange3">Sin cansancio</label>
+		<label style="float: right;" for="customRange3">Máximo cansancio</label>
+		{{form.Sintoma_2}}<br>
+		<label style="float: left;" for="customRange3">Sin náusea</label>
+		<label style="float: right;" for="customRange3">Máxima náusea</label>
+		{{form.Sintoma_3}}<br>
+		<label style="float: left;" for="customRange3">Sin depresión</label>
+		<label style="float: right;" for="customRange3">Maxima depresión</label>
+		{{form.Sintoma_4}}<br>
+<!-- 		<label style="float: left;" for="customRange3">Sin ansiedad</label>
+		<label style="float: right;" for="customRange3">Máxima ansiedad</label>
+		<input type="range" class="form-control-range" value="1" min="1" max="10" step="1" id="customRange3"><br>
+		<label style="float: left;" for="customRange3">Sin somnolencia</label>
+		<label style="float: right;" for="customRange3">Máxima somnolencia</label>
+		<input type="range" class="form-control-range" value="1" min="1" max="10" step="1" id="customRange3"><br>
+		<label style="float: left;" for="customRange3">Buen apetito</label>
+		<label style="float: right;" for="customRange3">Sin apetito</label>
+		<input type="range" class="form-control-range" value="1" min="1" max="10" step="1" id="customRange3"><br>
+		<label style="float: left;" for="customRange3">Máximo bienestar</label>
+		<label style="float: right;" for="customRange3">Máximo malestar</label>
+		<input type="range" class="form-control-range" value="1" min="1" max="10" step="1" id="customRange3"><br>
+		<label style="float: left;" for="customRange3">Sin falta de aire</label>
+		<label style="float: right;" for="customRange3">Máxima falta de aire</label>
+		<input type="range" class="form-control-range" value="1" min="1" max="10" step="1" id="customRange3"><br>
+		<label style="float: left;" for="customRange3">Sin dificulad para dormir</label>
+		<label style="float: right;" for="customRange3">Máxima dificultad para dormir</label>
+		<input type="range" class="form-control-range" value="1" min="1" max="10" step="1" id="customRange3"><br> -->
+		<button style="float: right;"type="submit" name="save" class="btn btn-info">Enviar reporte</button>
+	</div>
+  </div>
+</form>
+
+{% endblock %}

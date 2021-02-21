@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+{% block title %} Reporte diario de sintomas {% endblock %}
+
+
+{% block content %}
+	<script>
+		$(document).on('click', '.sure', function(){
+		return confirm('Are you sure you want to update this?');
+		})
+	</script>
+     <h3>Reporte de sintomas</h3>
+     <p>Para realizar el reporte, seleccione en cada barra su interpretacion del sintoma para el dia de hoy, posteriormente guarde sus cambios</p><br>
+    <form method="post" action="/form/" class="form-group">
+		<div class="form-group">
+	        {% csrf_token %}
+	        {{form.as_p}}
+			<br><button type="submit" name="save" class="btn btn-info" onclick="return confirm('¿Esta seguro de que quiere realizar el reporte? Solo podra hacerlo una vez por dia.');">Guardar</button>
+		</div>
+    </form>
+
+{% endblock %}

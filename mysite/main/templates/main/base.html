@@ -1,0 +1,172 @@
+<!-- base.html -->
+<!doctype html>
+{% load utags %}
+<html>
+<head>
+	
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+
+	<style type="text/css">
+
+		body {
+			overflow: hidden;
+			font-family: 'Mulish', sans-serif;
+			font-weight: 300;
+			color: var(--primary);
+		}
+		.sidebar {
+			background-color: #111B54 !important;
+		}
+		.topbar {
+			background-color: #ffffff !important;
+		}
+		#sidebar-container {
+			min-height:100vh;
+		}
+
+		#sidebar-container .logo{
+			padding: .875rem 1.25rem;
+		}
+		#sidebar-container a:hover {
+
+        	text-decoration: none;
+		}		
+        #sidebar-container .menu{
+			width: 15rem;
+			padding-left: 15px;
+			padding-top: 20px;
+		}  
+    	#content {
+    		overflow-y: auto;
+    		height: 100vh;
+    		padding-bottom: 5rem;
+    	}
+        .main{
+			margin-left:160px;
+			padding: 0px 10px;
+		}  
+		/*		.sidenav {
+			font-family: 'Muli', sans-serif;
+			font-weight: 300;
+		  	color: #f5f0f0;
+		  	min-height: 100vh;
+			height:100%;
+			width:200px;
+			position: fixed;
+			z-index:1;
+			top:0;
+			left:0;
+			background-color:#111;
+			overflow-x: :hidden;
+			padding-top:20px;
+		}  */  
+    </style>
+ 
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;700&display=swap" rel="stylesheet">
+	<title>{% block title %}eSalud{% endblock %}</title>
+</head>
+ 
+<body>
+<div class="d-flex">
+	<div id="sidebar-container" class="sidebar">
+
+		<div class="logo">
+			<h4 class="text-light font-wight-bold">eSalud</h4>
+		</div>	
+
+		<div class="menu">
+			{% if user.is_authenticated %}
+				<a href="/" class="d-block p-2 text-light"><ion-icon name="apps"></ion-icon> Inicio</a>
+				{% if request.user|has_group:"paciente" %}
+					<a href="/form" class="d-block p-2 text-light"><ion-icon name="list-box"></ion-icon> Reportar sintoma</a>
+					<a href="/historial" class="d-block p-2 text-light"><ion-icon name="paper"></ion-icon> Historial</a>
+				{% endif %}
+				{% if request.user|has_group:"personal" %}
+					<a href="/buscar" class="d-block p-2 text-light"><ion-icon name="clipboard"></ion-icon> Buscar</a>
+					<a href="/chart" class="d-block p-2 text-light"><ion-icon name="analytics"></ion-icon> Graficas</a>
+				{% endif %}
+					<a href="/info" class="d-block p-2 text-light"><ion-icon name="mail"></ion-icon> Contacto</a>
+					<a href="/logout" class="d-block p-2 text-light"><ion-icon name="exit"></ion-icon> Salir</a>
+			{% else %}
+				<a href="/" class="d-block p-2 text-light"><ion-icon name="apps"></ion-icon> Inicio</a>
+			<a href="/info" class="d-block p-2 text-light"><ion-icon name="mail" ></ion-icon> Contacto</a>
+			{% endif %}
+		</div>
+	</div>
+ 	<div class="w-100">
+					{% include 'main/includes/messages.html' %}	 
+		<nav class="navbar navbar-expand-lg navbar-light topbar">
+			<div class="container">
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			    <span class="navbar-toggler-icon"></span>
+			  </button>
+			  <p class="form-inline my-2 my-lg-0">Bienvenido a eSalud  
+				{% if user.is_authenticated %}
+					<i>, {{user.first_name}}</i>
+            	{% endif %}</p>
+<!-- 		<form class="form-inline my-2 my-lg-0">
+			      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+			      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			  </form> -->
+			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+			    <ul class="navbar-nav ml-auto">
+			    {% if user.is_authenticated %}
+			      <li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			          Cuenta
+			        </a>
+			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			          <a class="dropdown-item" href="/pass_change">Cambiar contraseña</a>
+			          <div class="dropdown-divider"></div>
+			          <a class="dropdown-item" href="/logout">Salir</a>
+			        </div>
+			      </li>
+			    {% else %}
+			    <a href="/login" class="btn btn-info" role="button">Ingresar</a>
+				{% endif %}
+			    </ul>
+
+			  </div>
+			</div>
+		</nav>
+		<div id="content">
+			<section>
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							{% block content %}
+							{% endblock %}
+						</div>
+						
+					</div>
+				</div>
+			</section>
+		</div>
+ 	</div>
+<!-- 			<div id="content" name="content" class="main">
+			<div class="col justify-content-center">
+				<div class="col-8">
+					<h1 class="mt-2">WebApp eSALUD</h1>
+					<hr class="mt-0 mb-4">
+					{% block scripts %}
+					{% endblock scripts %}
+	 				
+
+
+				</div>
+			</div>
+		</div> 	 -->
+</div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+</body>
+</html>

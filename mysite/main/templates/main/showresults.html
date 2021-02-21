@@ -1,0 +1,67 @@
+{% extends 'main/base.html' %}
+{% block title %} Buscar {% endblock %}
+
+
+{% block content %}
+
+     <h3>Buscar</h3>
+<center>
+<div class="input-group mb-3">
+  <form method="POST">
+    {% csrf_token %}
+
+<div class="input-group-prepend">
+  <select name="nombrep" class="form-control" aria-describedby="basic-addon1">
+      <option> Nombre Paciente </option>
+      {% for i in data2 %}
+      <option value="{{ i.first_name }}">{{ i.first_name }}</option>
+      {% endfor %}
+  </select>
+</div>
+<div class="input-group-prepend">
+  <span class="input-group-text" id="basic-addon1">Desde</span>
+  <input type="date" name="fromdate" value="1990-01-01" class="form-control" aria-describedby="basic-addon1" >
+  <span class="input-group-text" id="basic-addon1">Hasta</span>
+  <input type="date" name="todate" value="2040-01-01" class="form-control" aria-describedby="basic-addon1" >
+
+  <input style="float: right;" class="btn btn-info" type="submit" value="Buscar">
+</div>
+</div>
+    <table class="table table-striped">
+        <tr>
+            <th>Paciente</th>
+            <th>Dolor</th>
+            <th>Cansancio</th>
+            <th>Nausea</th>
+            <th>Depresion</th>
+            <th>Ansiedad</th>
+            <th>Somnolencia</th>
+            <th>Apetito</th>
+            <th>Bienestar</th>
+            <th>Aire</th>
+            <th>Sueño</th>
+            <th>Fecha</th>
+
+
+        </tr>
+        {% for results in data %}
+         <tr>
+            <td>{{results.Nombre_Paciente}}</td>
+            <td>{{results.Sintoma_1}}</td>
+            <td>{{results.Sintoma_2}}</td>
+            <td>{{results.Sintoma_3}}</td>
+            <td>{{results.Sintoma_4}}</td>
+            <td>{{results.Sintoma_5}}</td>
+            <td>{{results.Sintoma_6}}</td>
+            <td>{{results.Sintoma_7}}</td>
+            <td>{{results.Sintoma_8}}</td>
+            <td>{{results.Sintoma_9}}</td>
+            <td>{{results.Sintoma_10}}</td>
+            <td>{{results.fecha_de_reporte}}</td>
+        {% endfor %}
+    </table>
+    </form>
+</center>
+
+
+{% endblock %}

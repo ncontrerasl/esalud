@@ -1,0 +1,166 @@
+{% extends 'main/base.html' %}
+{% block scripts %}
+
+{% endblock scripts %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="input-group-prepend">
+        <select name="nombrepchart" class="form-control" aria-describedby="basic-addon1">
+          <option> Nombre Paciente </option>
+          {% for i in nombres %}
+          <option value="{{ i.first_name }}">{{ i.first_name }}</option>
+          {% endfor %}
+        </select>
+    </div>
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">Desde</span>
+      <input type="date" name="fromdatechart" value="2020-01-01" class="form-control" aria-describedby="basic-addon1" >
+      <span class="input-group-text" id="basic-addon1">Hasta</span>
+      <input type="date" name="todatechart" value="2021-01-01" placeholder="" class="form-control" aria-describedby="basic-addon1" >     
+      <input style="float: right;" class="btn btn-info" type="submit" value="Buscar">
+</div>
+</form>
+<br>
+<br>
+<div class="chart-container" style="position: relative; height:40vh; width:70vw">
+<canvas id="myChart" ></canvas>
+</div>>
+
+
+
+
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+            label: 'Dolor',
+             data: {{ data|safe }},
+             fill:false,
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Cansancio',
+             data: {{ data2|safe }},
+             fill:false,
+            hidden: true,
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Nausea',
+             data: {{ data3|safe }},
+             fill:false,
+            hidden: true,
+            borderColor: [
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Depresion',
+             data: {{ data4|safe }},
+             fill:false,
+            hidden: true,
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Ansiedad',
+             data: {{ data5|safe }},
+             fill:false,
+            hidden: true,
+            borderColor: [
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Somnolencia',
+             data: {{ data6|safe }},
+             fill:false,
+            hidden: true,
+            borderColor: [
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Apetito',
+             data: {{ data7|safe }},
+             fill:false,
+            hidden: true,
+            borderColor: [
+                'rgba(154, 100, 235, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Bienestar',
+             data: {{ data8|safe }},
+             fill:false,
+            hidden: true,
+            borderColor: [
+                'rgba(155, 159, 164, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Falta de aire',
+             data: {{ data9|safe }},
+             fill:false,
+            hidden: true,
+            borderColor: [
+                'rgba(2, 2, 240, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Sueño',
+             data: {{ data10|safe }},
+             fill:false,
+            hidden: true,
+            borderColor: [
+                'rgba(1, 1, 64, 1)'
+            ],
+            borderWidth: 1
+        },]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+{% endblock %}
